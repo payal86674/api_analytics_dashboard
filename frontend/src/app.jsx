@@ -29,7 +29,7 @@ import {
 /* ------------------------------------------------------------------ */
 const API_BASE_URL =
   (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) ||
-  'http://127.0.0.1:8000/api';
+  'https://api-analytics-dashboard-flxf.onrender.com/api';
 
 const api = axios.create({ baseURL: API_BASE_URL, timeout: 15000 });
 
