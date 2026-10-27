@@ -69,14 +69,12 @@ def get_db() -> Client:
 # ---------------------------------------------------------------------------
 # App + CORS
 # ---------------------------------------------------------------------------
-app = FastAPI(title="Micro-SaaS API Analytics Engine")
+app = FastAPI(title="Micro-SaaS API Command Center")
 
-default_origins = "http://localhost:5173,http://127.0.0.1:5173"
-allowed_origins = [o.strip() for o in os.getenv("CORS_ORIGINS", default_origins).split(",") if o.strip()]
-
+# Enable CORS for Vercel deployment
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["*"],  # Allows Vercel frontend to connect
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -280,7 +278,7 @@ def get_summary_stats(
         total_tokens += int(num(row.get("tokens_used")))
 
     # One cost formula used everywhere:
-    #   current spend     = tokens / 1000 * rate
+    #   current spend      = tokens / 1000 * rate
     #   monthly forecast  = current spend / days in the selected window * 30
     current_spend = (total_tokens / 1000) * cost_per_1k_tokens
     projected_monthly_cost = (current_spend / days) * 30
